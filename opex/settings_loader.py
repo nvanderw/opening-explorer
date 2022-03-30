@@ -6,7 +6,7 @@ import os.path
 from chess import engine
 
 import typing
-from typing import AnyStr, Dict, IO, List, Tuple, Union
+from typing import AnyStr, Dict, IO, List, Set, Tuple, Union
 
 Json = Dict[str, 'JsonValue']
 JsonValue = Union[str, int, bool, Json, List['JsonValue']]
@@ -169,12 +169,12 @@ def check_engine_options(default_options: List[engine.Option], engine_options: e
             raise ValueError(f'Value \'{value}\' for \'{name}\' not in range [{option.min}, {option.max}]')
 
     def check_combo(option: engine.Option, value: engine.ConfigValue):
-        if value not in option.var:
+        if option.var is None or value not in option.var:
             raise ValueError(f'Value \'{value}\' for \'{name}\' not in {option.var}')
 
     managed_options: List[str] = []
     button_options: List[str] = []
-    found_names = set()
+    found_names: Set[str] = set()
 
     for option in default_options:
         name = option.name

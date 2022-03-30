@@ -27,7 +27,7 @@ class Database:
         """Initialize the database."""
         cursor = self._db.cursor()
         # Expect to find db.schema in same directory as this module
-        this_module_dir = os.path.dirname(sys.modules[__name__].__file__)
+        this_module_dir = os.path.dirname(str(sys.modules[__name__].__file__))
         schema_path = os.path.join(this_module_dir, 'db.schema')
         with open(schema_path) as schema:
             cursor.executescript(schema.read())
